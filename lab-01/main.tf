@@ -1,19 +1,17 @@
-# provider "aws" {
-#   region = "ca-central-1"
+provider "aws" {
+  region = "us-east-1"
 
-# }
-
-
+}
 
 resource "aws_instance" "web" {
-  ami           = "ami-49f0762d"
+  ami           = "ami-011b3ccf1bd6db744"
   instance_type = "t2.micro"
   security_groups = [
-        "ansible-node"
+        "jenkins"
     ]
-  key_name = "ansible"
+  key_name = "jenkins"
   tags {
-    Name = "rhel"
+    Name = "rhel-jenkins"
   }
   provisioner "remote-exec" {
     inline = [
@@ -22,11 +20,11 @@ resource "aws_instance" "web" {
     connection {
     type     = "ssh"
     user     = "ec2-user"
-    private_key  = "${file("~/ansible.pem")}"
+    private_key  = "${file("~/jenkins.pem")}"
   }
   }
   
    provisioner "local-exec" {
-    command = "ansible-playbook -i ${aws_instance.web.public_ip}, install-jenkins.yml"
+    command = "ansible-playbook -i ${aws_instance.web.public_ip}, install-jenkins.yml -b"
   }
 }

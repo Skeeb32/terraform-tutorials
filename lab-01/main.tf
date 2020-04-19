@@ -1,10 +1,10 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "ca-central-1"
 
 }
 
 resource "aws_instance" "web" {
-  ami           = "ami-011b3ccf1bd6db744"
+  ami           = "ami-49f0762d"
   instance_type = "t2.micro"
   security_groups = [
         "default"

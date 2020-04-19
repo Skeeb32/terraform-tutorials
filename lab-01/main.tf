@@ -7,20 +7,20 @@ resource "aws_instance" "web" {
   ami           = "ami-011b3ccf1bd6db744"
   instance_type = "t2.micro"
   security_groups = [
-        "jenkins"
+        "default"
     ]
-  key_name = "jenkins"
-  tags {
-    Name = "rhel-jenkins"
-  }
+  key_name = "hdp"
+ 
+
   provisioner "remote-exec" {
     inline = [
       "hostname -f"
     ]
     connection {
+    host     = "${aws_instance.web.public_ip}"
     type     = "ssh"
     user     = "ec2-user"
-    private_key  = "${file("~/jenkins.pem")}"
+    private_key  = "${file("~/hdp.pem")}"
   }
   }
   
